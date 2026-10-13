@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WORLD – Serverstatus</title>
-  
-<link rel="icon" type="image/png" href="log.png">
+  <title>WORLD | Serverstatus</title>
+
+  <!-- Tab-Bild / Favicon -->
+  <link rel="icon" type="image/png" href="log.png">
 
   <style>
     * {
@@ -179,6 +180,7 @@
 <body>
   <main class="container">
 
+    <!-- WORLD Logo -->
     <img
       class="logo"
       src="logo.png"
@@ -189,6 +191,7 @@
     <h1>WORLD Serverstatus</h1>
     <p class="subtitle">Alle wichtigen Informationen auf einen Blick</p>
 
+    <!-- Gesamtstatus -->
     <div class="overall" id="overall">
       Status wird geladen ...
     </div>
@@ -236,6 +239,12 @@
       <div class="server-list" id="web"></div>
     </section>
 
+    <!-- Discord -->
+    <section class="section">
+      <h2>💬 Discord</h2>
+      <div class="server-list" id="discord"></div>
+    </section>
+
     <footer>
       WORLD Minecraft Server · Serverstatus
     </footer>
@@ -247,7 +256,6 @@
       STATUS EINSTELLEN:
       online: true  = Online
       online: false = Offline
-
       max = maximales Spielerlimit
     */
 
@@ -273,7 +281,13 @@
         name: "WORLD Webseite",
         online: true,
         url: "https://kiabruno.github.io/world/"
-      }
+      },
+
+      discord: [
+        { name: "Discord Online", online: true },
+        { name: "Server", online: false },
+        { name: "Bot", online: false }
+      ]
     };
 
     function setNetworkStatus(cardId, textId, isOnline) {
@@ -302,10 +316,12 @@
         info.appendChild(name);
 
         // Nur das maximale Spielerlimit anzeigen
-        const limit = document.createElement("div");
-        limit.className = "server-info";
-        limit.textContent = `Limit: ${server.max} Spieler`;
-        info.appendChild(limit);
+        if (typeof server.max === "number") {
+          const limit = document.createElement("div");
+          limit.className = "server-info";
+          limit.textContent = `Limit: ${server.max} Spieler`;
+          info.appendChild(limit);
+        }
 
         const status = document.createElement("div");
         status.className =
@@ -338,7 +354,7 @@
       name.textContent = web.name;
       info.appendChild(name);
 
-      if (web.url && web.url !== "https://DEINE-WEBSEITE.de") {
+      if (web.url) {
         const link = document.createElement("a");
         link.className = "web-link";
         link.href = web.url;
@@ -372,12 +388,14 @@
       renderServers("farmwelt", config.farmwelt);
       renderServers("lobby", config.lobby);
       renderWeb(config.web);
+      renderServers("discord", config.discord);
 
       const allServers = [
         ...config.citybuild,
         ...config.farmwelt,
         ...config.lobby,
-        config.web
+        config.web,
+        ...config.discord
       ];
 
       const allOnline =
@@ -389,7 +407,7 @@
 
       overall.textContent = allOnline
         ? "✅ Alle Systeme funktionieren"
-        : "⚠️ Es gibt derzeit eineige Störungen";
+        : "⚠️ Es gibt einige Störungen";
 
       overall.style.color = allOnline ? "#39d98a" : "#ff6b78";
     }
