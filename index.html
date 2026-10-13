@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WORLD | Minecraft Server</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #07110e;
+      color: white;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 8%;
+      background: #07110ee8;
+      border-bottom: 1px solid #244536;
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: 900;
+      color: #59e6a0;
+      letter-spacing: 4px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 24px;
+    }
+
+    nav a:hover {
+      color: #59e6a0;
+    }
+
+    .hero {
+      min-height: 620px;
+      padding: 100px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background:
+        linear-gradient(#06100a66, #06100aee),
+        url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2000&q=80")
+        center/cover;
+    }
+
+    .tag {
+      color: #59e6a0;
+      letter-spacing: 4px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(65px, 12vw, 130px);
+      font-weight: 1000;
+      letter-spacing: 8px;
+      text-shadow: 0 8px 30px #000;
+    }
+
+    .hero p {
+      font-size: 20px;
+      color: #d2e7dc;
+      margin: 20px 0 32px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 16px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .primary {
+      background: #59e6a0;
+      color: #07110e;
+    }
+
+    .secondary {
+      border: 1px solid #59e6a0;
+      color: white;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.1);
+    }
+
+    .ip {
+      margin-top: 35px;
+      padding: 14px 22px;
+      background: #07110ed9;
+      border: 1px solid #315441;
+      border-radius: 8px;
+      color: #59e6a0;
+      cursor: pointer;
+    }
+
+    section {
+      padding: 75px 8%;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 36px;
+      margin-bottom: 15px;
+    }
+
+    .subtitle {
+      color: #a9c0b4;
+      margin-bottom: 40px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 22px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .card {
+      padding: 32px 22px;
+      background: #101f18;
+      border: 1px solid #244536;
+      border-radius: 14px;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: #59e6a0;
+    }
+
+    .card .emoji {
+      font-size: 40px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+      color: #59e6a0;
+    }
+
+    .card p {
+      color: #b8c9c0;
+      line-height: 1.6;
+    }
+
+    .join {
+      background: #0c1b13;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #82998c;
+      border-top: 1px solid #244536;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      nav a {
+        margin: 0 8px;
+      }
+
+      .hero {
+        min-height: 540px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">WORLD</div>
+    <nav>
+      <a href="#start">Start</a>
+      <a href=""></a>
+      <a href="server.html">Server Status</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero" id="start">
+      <div class="tag">DEIN ABENTEUER BEGINNT HIER</div>
+      <h1>WORLD</h1>
+      <p>Eine Welt. Unendliche Möglichkeiten.</p>
+
+      <div class="buttons">
+        <a class="btn primary" href="#join">Jetzt mitspielen</a>
+        <a class="btn secondary"
+           href="https://discord.com/" target="_blank"
+           rel="noopener noreferrer">Discord beitreten</a>
+      </div>
+
+      <button class="ip" onclick="copyIP()">
+        <span id="ipText">Server-IP kopieren</span> 📋
+      </button>
+    </div>
+
+    <section id="features">
+      <h2>Willkommen auf WORLD</h2>
+      <p class="subtitle">
+        Entdecke deine Welt und werde Teil unserer Community.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="emoji">⛏️</div>
+          <h3>Survival</h3>
+          <p>Sammle Ressourcen, baue dein Zuhause und meistere Abenteuer.</p>
+        </div>
+
+        <div class="card">
+          <div class="emoji">🏰</div>
+          <h3>Deine Welt</h3>
+          <p>Baue beeindruckende Bauwerke und erschaffe etwas Großes.</p>
+        </div>
+
+        <div class="card">
+          <div class="emoji">👥</div>
+          <h3>Community</h3>
+          <p>Triff andere Spieler und erlebt gemeinsam neue Abenteuer.</p>
+        </div>
+
+        <div class="card">
+          <div class="emoji">🎉</div>
+          <h3>Events</h3>
+          <p>Freue dich auf spannende Herausforderungen und gemeinsame Events.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="join" id="join">
+      <h2>Bereit für WORLD?</h2>
+      <p class="subtitle">Dein nächstes Abenteuer wartet auf dich.</p>
+      <button class="btn primary" onclick="copyIP()">
+        Server-IP kopieren
+      </button>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 WORLD Minecraft Server · Gemeinsam bauen.
+  </footer>
+
+  <script>
+    // ERSETZE DIESE IP DURCH DIE IP DEINES SERVERS
+    const SERVER_IP = "gamingluxus.falix.me";
+
+    async function copyIP() {
+      try {
+        await navigator.clipboard.writeText(SERVER_IP);
+        document.getElementById("ipText").textContent = "IP kopiert!";
+      } catch (error) {
+        prompt("Kopiere deine Server-IP:", SERVER_IP);
+      }
+    }
+  </script>
+</body>
+</html>
