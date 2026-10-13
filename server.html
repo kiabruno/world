@@ -1,10 +1,12 @@
-```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WORLD – Serverstatus</title>
+
+  
+<link rel="icon" type="image/png" href="log.png">
 
   <style>
     * {
@@ -252,7 +254,7 @@
 
     const config = {
       java: true,
-      bedrock: true,
+      bedrock: false,
 
       citybuild: [
         { name: "CB-1", online: true, max: 7 }
@@ -270,7 +272,7 @@
 
       web: {
         name: "WORLD Webseite",
-        online: false,
+        online: true,
         url: "https://kiabruno.github.io/world/"
       }
     };
@@ -388,7 +390,7 @@
 
       overall.textContent = allOnline
         ? "✅ Alle Systeme funktionieren"
-        : "⚠️ Es gibt derzeit eine Störung";
+        : "⚠️ Es gibt derzeit eineige Störungen";
 
       overall.style.color = allOnline ? "#39d98a" : "#ff6b78";
     }
