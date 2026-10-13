@@ -1,0 +1,399 @@
+```html
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WORLD – Serverstatus</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 30px 16px;
+      font-family: Arial, sans-serif;
+      background: #10131a;
+      color: white;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .logo {
+      display: block;
+      width: 220px;
+      max-width: 80%;
+      height: auto;
+      margin: 0 auto 25px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #aab2c5;
+      margin-bottom: 28px;
+    }
+
+    .overall {
+      text-align: center;
+      padding: 16px;
+      border-radius: 12px;
+      background: #1c2430;
+      margin-bottom: 22px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .network {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .network-card,
+    .server,
+    .section {
+      background: #1c2430;
+      border: 1px solid #303b4d;
+      border-radius: 12px;
+    }
+
+    .network-card {
+      padding: 18px;
+      text-align: center;
+    }
+
+    .network-card h3 {
+      margin: 0 0 10px;
+    }
+
+    .section {
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-size: 21px;
+    }
+
+    .server-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .server {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .server-name {
+      font-weight: bold;
+    }
+
+    .server-info {
+      margin-top: 5px;
+      color: #aab2c5;
+      font-size: 13px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 14px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .online .dot {
+      background: #39d98a;
+      box-shadow: 0 0 8px #39d98a66;
+    }
+
+    .offline .dot {
+      background: #ff5364;
+      box-shadow: 0 0 8px #ff536466;
+    }
+
+    .online .status-text {
+      color: #39d98a;
+    }
+
+    .offline .status-text {
+      color: #ff6b78;
+    }
+
+    .web-link {
+      display: inline-block;
+      color: #7eb6ff;
+      text-decoration: none;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .web-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      color: #78849a;
+      font-size: 13px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 520px) {
+      .network {
+        grid-template-columns: 1fr;
+      }
+
+      .server {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+
+    <img
+      class="logo"
+      src="logo.png"
+      alt="WORLD Logo"
+      onerror="this.style.display='none'"
+    >
+
+    <h1>WORLD Serverstatus</h1>
+    <p class="subtitle">Alle wichtigen Informationen auf einen Blick</p>
+
+    <div class="overall" id="overall">
+      Status wird geladen ...
+    </div>
+
+    <!-- Java und Bedrock -->
+    <div class="network">
+      <div class="network-card" id="java-card">
+        <h3>Java Edition</h3>
+        <div class="status">
+          <span class="dot"></span>
+          <span class="status-text" id="java-status"></span>
+        </div>
+      </div>
+
+      <div class="network-card" id="bedrock-card">
+        <h3>Bedrock Edition</h3>
+        <div class="status">
+          <span class="dot"></span>
+          <span class="status-text" id="bedrock-status"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CityBuild -->
+    <section class="section">
+      <h2>🏙️ CityBuild</h2>
+      <div class="server-list" id="citybuild"></div>
+    </section>
+
+    <!-- Farmwelt -->
+    <section class="section">
+      <h2>🌎 Farmwelt</h2>
+      <div class="server-list" id="farmwelt"></div>
+    </section>
+
+    <!-- Lobby -->
+    <section class="section">
+      <h2>🏠 Lobby</h2>
+      <div class="server-list" id="lobby"></div>
+    </section>
+
+    <!-- Web -->
+    <section class="section">
+      <h2>🌐 Web</h2>
+      <div class="server-list" id="web"></div>
+    </section>
+
+    <footer>
+      WORLD Minecraft Server · Serverstatus
+    </footer>
+
+  </main>
+
+  <script>
+    /*
+      STATUS EINSTELLEN:
+      online: true  = Online
+      online: false = Offline
+
+      max = maximales Spielerlimit
+    */
+
+    const config = {
+      java: true,
+      bedrock: true,
+
+      citybuild: [
+        { name: "CB-1", online: true, max: 7 }
+      ],
+
+      farmwelt: [
+        { name: "End-1", online: false, max: 0 },
+        { name: "Farm-1", online: true, max: 50 },
+        { name: "Nether-1", online: true, max: 50 }
+      ],
+
+      lobby: [
+        { name: "Lobby-1", online: true, max: 50 }
+      ],
+
+      web: {
+        name: "WORLD Webseite",
+        online: false,
+        url: "https://kiabruno.github.io/world/"
+      }
+    };
+
+    function setNetworkStatus(cardId, textId, isOnline) {
+      const card = document.getElementById(cardId);
+      const text = document.getElementById(textId);
+
+      card.classList.toggle("online", isOnline);
+      card.classList.toggle("offline", !isOnline);
+
+      text.textContent = isOnline ? "Online" : "Offline";
+    }
+
+    function renderServers(elementId, servers) {
+      const container = document.getElementById(elementId);
+      container.replaceChildren();
+
+      servers.forEach(server => {
+        const card = document.createElement("div");
+        card.className = "server";
+
+        const info = document.createElement("div");
+
+        const name = document.createElement("div");
+        name.className = "server-name";
+        name.textContent = server.name;
+        info.appendChild(name);
+
+        // Nur das maximale Spielerlimit anzeigen
+        const limit = document.createElement("div");
+        limit.className = "server-info";
+        limit.textContent = `Limit: ${server.max} Spieler`;
+        info.appendChild(limit);
+
+        const status = document.createElement("div");
+        status.className =
+          "status " + (server.online ? "online" : "offline");
+
+        const dot = document.createElement("span");
+        dot.className = "dot";
+
+        const statusText = document.createElement("span");
+        statusText.className = "status-text";
+        statusText.textContent = server.online ? "Online" : "Offline";
+
+        status.append(dot, statusText);
+        card.append(info, status);
+        container.appendChild(card);
+      });
+    }
+
+    function renderWeb(web) {
+      const container = document.getElementById("web");
+      container.replaceChildren();
+
+      const card = document.createElement("div");
+      card.className = "server";
+
+      const info = document.createElement("div");
+
+      const name = document.createElement("div");
+      name.className = "server-name";
+      name.textContent = web.name;
+      info.appendChild(name);
+
+      if (web.url && web.url !== "https://DEINE-WEBSEITE.de") {
+        const link = document.createElement("a");
+        link.className = "web-link";
+        link.href = web.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Webseite öffnen ↗";
+        info.appendChild(link);
+      }
+
+      const status = document.createElement("div");
+      status.className =
+        "status " + (web.online ? "online" : "offline");
+
+      const dot = document.createElement("span");
+      dot.className = "dot";
+
+      const statusText = document.createElement("span");
+      statusText.className = "status-text";
+      statusText.textContent = web.online ? "Online" : "Offline";
+
+      status.append(dot, statusText);
+      card.append(info, status);
+      container.appendChild(card);
+    }
+
+    function renderPage() {
+      setNetworkStatus("java-card", "java-status", config.java);
+      setNetworkStatus("bedrock-card", "bedrock-status", config.bedrock);
+
+      renderServers("citybuild", config.citybuild);
+      renderServers("farmwelt", config.farmwelt);
+      renderServers("lobby", config.lobby);
+      renderWeb(config.web);
+
+      const allServers = [
+        ...config.citybuild,
+        ...config.farmwelt,
+        ...config.lobby,
+        config.web
+      ];
+
+      const allOnline =
+        config.java &&
+        config.bedrock &&
+        allServers.every(server => server.online);
+
+      const overall = document.getElementById("overall");
+
+      overall.textContent = allOnline
+        ? "✅ Alle Systeme funktionieren"
+        : "⚠️ Es gibt derzeit eine Störung";
+
+      overall.style.color = allOnline ? "#39d98a" : "#ff6b78";
+    }
+
+    renderPage();
+  </script>
+</body>
+</html>
